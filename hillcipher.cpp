@@ -15,14 +15,6 @@ int input_matriks(int ordo, int key[][3])
     return key[ordo][ordo];
 }
 
-void swap(int &var1, int &var2)
-{
-    int temp;
-    temp = var1;
-    var1 = var2;
-    var2 = temp;
-}
-
 void hills_cipher(int ordo, int key[][3], string plaintext, string type)
 {
     if (ordo == 2)
@@ -300,14 +292,20 @@ void cariKey(int ordo, string plaintext, string ciphertext, int key[][3])
     {
         for (int j = 0; j < ordo; j++)
         {
-            if(plaintext[x] >= 97){
+            if (plaintext[x] >= 97)
+            {
                 plainMatriks[j][i] = plaintext[x] - 97;
-            } else {
+            }
+            else
+            {
                 plainMatriks[j][i] = plaintext[x] - 65;
             }
-            if(ciphertext[x] >= 97){
+            if (ciphertext[x] >= 97)
+            {
                 cipherMatriks[j][i] = ciphertext[x] - 97;
-            } else {
+            }
+            else
+            {
                 cipherMatriks[j][i] = ciphertext[x] - 65;
             }
             x++;
