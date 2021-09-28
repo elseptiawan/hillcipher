@@ -225,7 +225,13 @@ void inversMatriks2x2(int inversKey[][3], int key[][3])
     int mod_determinan;
     for (int i = 0; i < 26; i++)
     {
-        if (determinan * i % 26 == 1)
+        int temp;
+        temp = determinan * i;
+        while (temp < 0)
+        {
+            temp += 26;
+        }
+        if (temp % 26 == 1)
         {
             mod_determinan = i;
             break;
@@ -254,7 +260,13 @@ void inversMatriks3x3(int inversKey[][3], int key[][3])
     int mod_determinan;
     for (int i = 0; i < 26; i++)
     {
-        if (determinan * i % 26 == 1)
+        int temp;
+        temp = determinan * i;
+        while (temp < 0)
+        {
+            temp += 26;
+        }
+        if (temp % 26 == 1)
         {
             mod_determinan = i;
             break;
@@ -269,13 +281,11 @@ void inversMatriks3x3(int inversKey[][3], int key[][3])
         {
             each = ((key[(j + 1) % 3][(i + 1) % 3] * key[(j + 2) % 3][(i + 2) % 3]) - (key[(j + 1) % 3][(i + 2) % 3] * key[(j + 2) % 3][(i + 1) % 3]));
 
-            // if the element in matrix is negative, add 26 until positive.
             while (each < 0)
             {
                 each += 26;
             }
 
-            // multiply each element of matrix by determinan inverse and mod with 26.
             inversKey[i][j] = (each * mod_determinan) % 26;
         }
     }
@@ -296,24 +306,6 @@ void cariKey(int ordo, string plaintext, string ciphertext, int key[][3])
         }
     }
 
-    for (int i = 0; i < ordo; i++)
-    {
-        for (int j = 0; j < ordo; j++)
-        {
-            cout << plainMatriks[i][j] << " ";
-        }
-        cout << endl;
-    }
-
-    for (int i = 0; i < ordo; i++)
-    {
-        for (int j = 0; j < ordo; j++)
-        {
-            cout << cipherMatriks[i][j] << " ";
-        }
-        cout << endl;
-    }
-
     int inversPlainMatriks[3][3];
 
     if (ordo == 2)
@@ -324,20 +316,11 @@ void cariKey(int ordo, string plaintext, string ciphertext, int key[][3])
         {
             for (int j = 0; j < ordo; j++)
             {
-                cout << inversPlainMatriks[i][j] << " ";
-            }
-            cout << endl;
-        }
-
-        for (int i = 0; i < ordo; i++)
-        {
-            for (int j = 0; j < ordo; j++)
-            {
                 key[i][j] = (cipherMatriks[i][0] * inversPlainMatriks[0][j]) + (cipherMatriks[i][1] * inversPlainMatriks[1][j]);
-                // while (key[i][j] < 0)
-                // {
-                //     key[i][j] += 26;
-                // }
+                while (key[i][j] < 0)
+                {
+                    key[i][j] += 26;
+                }
                 key[i][j] = key[i][j] % 26;
                 cout << key[i][j] << " ";
             }
@@ -348,6 +331,21 @@ void cariKey(int ordo, string plaintext, string ciphertext, int key[][3])
     else
     {
         inversMatriks3x3(inversPlainMatriks, plainMatriks);
+
+        for (int i = 0; i < ordo; i++)
+        {
+            for (int j = 0; j < ordo; j++)
+            {
+                key[i][j] = (cipherMatriks[i][0] * inversPlainMatriks[0][j]) + (cipherMatriks[i][1] * inversPlainMatriks[1][j]) + (cipherMatriks[i][2] * inversPlainMatriks[2][j]);
+                while (key[i][j] < 0)
+                {
+                    key[i][j] += 26;
+                }
+                key[i][j] = key[i][j] % 26;
+                cout << key[i][j] << " ";
+            }
+            cout << endl;
+        }
     }
 }
 
