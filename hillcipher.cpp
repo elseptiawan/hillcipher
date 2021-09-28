@@ -23,7 +23,7 @@ void swap(int &var1, int &var2)
     var2 = temp;
 }
 
-void enkripsi(int ordo, int key[][3], string plaintext)
+void hills_cipher(int ordo, int key[][3], string plaintext, string type)
 {
     if (ordo == 2)
     {
@@ -91,7 +91,7 @@ void enkripsi(int ordo, int key[][3], string plaintext)
                 }
             }
         }
-        cout << "Hasil Enkripsi (Ciphertext) = " << ciphertext << endl;
+        cout << "Hasil " << type << " = " << ciphertext << endl;
     }
     else if (ordo == 3)
     {
@@ -181,7 +181,7 @@ void enkripsi(int ordo, int key[][3], string plaintext)
                 }
             }
         }
-        cout << "Hasil Enkripsi (Ciphertext) = " << ciphertext << endl;
+        cout << "Hasil " << type << " = " << ciphertext << endl;
     }
     else
     {
@@ -300,8 +300,16 @@ void cariKey(int ordo, string plaintext, string ciphertext, int key[][3])
     {
         for (int j = 0; j < ordo; j++)
         {
-            plainMatriks[j][i] = plaintext[x] - 65;
-            cipherMatriks[j][i] = ciphertext[x] - 65;
+            if(plaintext[x] >= 97){
+                plainMatriks[j][i] = plaintext[x] - 97;
+            } else {
+                plainMatriks[j][i] = plaintext[x] - 65;
+            }
+            if(ciphertext[x] >= 97){
+                cipherMatriks[j][i] = ciphertext[x] - 97;
+            } else {
+                cipherMatriks[j][i] = ciphertext[x] - 65;
+            }
             x++;
         }
     }
@@ -375,7 +383,7 @@ int main()
             getline(cin >> ws, plaintext);
             int key[3][3];
             input_matriks(ordo, key);
-            enkripsi(ordo, key, plaintext);
+            hills_cipher(ordo, key, plaintext, "Enkripsi (Ciphertext)");
 
             cout << "Apakah anda ingin mengulang? (y/n) -> ";
             cin >> loop;
@@ -400,7 +408,7 @@ int main()
             {
                 inversMatriks3x3(inversKey, key);
             }
-            enkripsi(ordo, inversKey, ciphertext);
+            hills_cipher(ordo, inversKey, ciphertext, "Dekripsi (Plaintext)");
 
             cout << "Apakah anda ingin mengulang? (y/n) -> ";
             cin >> loop;
